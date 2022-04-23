@@ -10,6 +10,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@emotion/native": "^11.0.0",
+    "@emotion/react": "^11.9.0",
+    "axios": "^0.26.1",
     "react": "17.0.2",
     "react-native": "0.68.1"
   },
