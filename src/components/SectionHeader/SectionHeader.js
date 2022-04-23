@@ -1,9 +1,9 @@
 import React from 'react';
 import {HeaderWrapper, HeaderText} from './styles';
 
-const SectionHeader = ({familyName, noOfMembers}) => (
+const SectionHeader = ({section}) => (
   <HeaderWrapper>
-    <HeaderText>{`${familyName} : ${noOfMembers}`}</HeaderText>
+    <HeaderText>{`${section.title} : ${section.data.length}`}</HeaderText>
   </HeaderWrapper>
 );
 

@@ -6,9 +6,12 @@ export const HeaderWrapper = styled.View({
   justifyContent: 'flex-start',
   alignItems: 'center',
   width: '100%',
-  height: 25,
+  height: 50,
+  backgroundColor: colors.darkGrey,
 });
 
 export const HeaderText = styled.Text({
   color: colors.white,
+  fontWeight: 'bold',
+  marginLeft: 15,
 });

@@ -7,35 +7,35 @@ import {
 } from './styles';
 import {colors} from '../../themes/colors';
 
-const SectionItems = ({itemName, itemTitle, itemImage}) => (
+const SectionItems = ({item}) => (
   <ItemsWrapper>
     <NameAndTitleWrapper>
       <ItemsText
         textColor={colors.pink}
         fontWeight="normal"
         textTransform="capitalize">
-        Name :
+        Name:
         <ItemsText
           textColor={colors.darkGrey}
           fontWeight="bold"
-          textTransform="upperCase">
-          {itemName}
+          textTransform="uppercase">
+          {` ${item.fullName}`}
         </ItemsText>
       </ItemsText>
       <ItemsText
         textColor={colors.pink}
         fontWeight="normal"
         textTransform="capitalize">
-        Title :
+        Title:
         <ItemsText
           textColor={colors.darkGrey}
           fontWeight="bold"
-          textTransform="upperCase">
-          {itemTitle}
+          textTransform="uppercase">
+          {` ${item.title}`}
         </ItemsText>
       </ItemsText>
     </NameAndTitleWrapper>
-    <ItemImage source={itemImage} resizeMode="contain" />
+    <ItemImage source={{uri: item.imageUrl}} resizeMode="contain" />
   </ItemsWrapper>
 );
 

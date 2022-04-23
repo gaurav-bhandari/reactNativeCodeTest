@@ -1,46 +1,65 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, SectionList} from 'react-native';
 
 import oneDotComApi from '../../api';
 import SectionHeader from '../../components/SectionHeader';
 import SectionItems from '../../components/SectionItems';
+import {Header, HeaderText} from './styles';
 
 const Home = () => {
-  const [data, setData] = useState([]);
+  const [families, setFamilies] = useState([]);
+
   useEffect(() => {
     const getCharacters = async () => {
-      const results = await oneDotComApi.get('/api/v2/Characters');
-      const families = results.data.map(eachResult => eachResult.family);
-      let familySection = {};
-      let uniqueFamilyArray = [...new Set(families)];
-      uniqueFamilyArray.forEach(eachFamily => {
-        results.data.forEach(eachRes => {
-          if (eachFamily === eachRes.family) {
-            if (familySection[eachFamily]) {
-              familySection = {
-                ...familySection,
-                [eachFamily]: [...familySection[eachFamily], eachRes],
-              };
-            } else {
-              familySection = {
-                ...familySection,
-                [eachFamily]: [eachRes],
-              };
+      try {
+        const charactersData = await oneDotComApi.get('/api/v2/Characters');
+        const familiesArr = charactersData.data.map(
+          eachCharacter => eachCharacter.family,
+        );
+        let uniqueFamilies = [...new Set(familiesArr)];
+        let familiesData = {};
+        uniqueFamilies.forEach(eachFamily => {
+          charactersData.data.forEach(eachCharacter => {
+            if (eachFamily === eachCharacter.family) {
+              if (familiesData[eachFamily]) {
+                familiesData = {
+                  ...familiesData,
+                  [eachFamily]: [...familiesData[eachFamily], eachCharacter],
+                };
+              } else {
+                familiesData = {
+                  ...familiesData,
+                  [eachFamily]: [eachCharacter],
+                };
+              }
             }
-          }
+          });
         });
-      });
+        const newFamiliesData = Object.entries(familiesData).map(
+          eachFamilyData => ({
+            title: eachFamilyData[0],
+            data: eachFamilyData[1],
+          }),
+        );
+        setFamilies(newFamiliesData);
+      } catch (e) {
+        console.log('Error:', e);
+      }
     };
     getCharacters();
   }, []);
 
   return (
     <SafeAreaView>
-      {/* <SectionList sections={data}
-     renderItem={}
-     keyExtractor={(item) => }
-     renderSectionHeader={} 
-      /> */}
+      <Header>
+        <HeaderText>Home</HeaderText>
+      </Header>
+      <SectionList
+        sections={families}
+        renderItem={({item}) => <SectionItems item={item} />}
+        keyExtractor={(item, index) => item + index}
+        renderSectionHeader={({section}) => <SectionHeader section={section} />}
+      />
     </SafeAreaView>
   );
 };
